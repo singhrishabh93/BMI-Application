@@ -24,32 +24,100 @@ class MyHomePage extends StatefulWidget {
 }
 
 class MyHomeState extends State<MyHomePage> {
-  RangeValues values = RangeValues(0, 100);
-  var nameController = TextEditingController();
+  var wtController = TextEditingController();
+  var ftController = TextEditingController();
+  var inController = TextEditingController();
+  var result = "";
   @override
   Widget build(BuildContext context) {
-    RangeLabels labels =
-        RangeLabels(values.start.toString(), values.end.toString());
-
     return Scaffold(
         appBar: AppBar(
-          title: Text("Basic Claculation"),
+          title: Text("Body Mass Index"),
           centerTitle: true,
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.purple,
         ),
-        body: RangeSlider(
-          values: values,
-          labels: labels,
-          divisions: 10,
-          activeColor: Colors.green,
-          inactiveColor: Colors.green.shade100,
-          min: 0,
-          max: 100,
-          onChanged: (newValue) {
-            print("${newValue.start}, ${newValue.end}");
-            values = newValue;
-            setState(() {});
-          },
+        body: Center(
+          child: Container(
+            width: 300,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(11.0),
+                  child: Text(
+                    "Enter the following details",
+                    style: TextStyle(fontSize: 21),
+                  ),
+                ),
+                TextField(
+                  controller: wtController,
+                  decoration: InputDecoration(
+                      label: Text("Enter your Weight in KGs"),
+                      prefixIcon: Icon(Icons.line_weight)),
+                  keyboardType: TextInputType.number,
+                ),
+                SizedBox(
+                  height: 21,
+                ),
+                TextField(
+                  controller: ftController,
+                  decoration: InputDecoration(
+                      label: Text("Enter your Height in feets"),
+                      prefixIcon: Icon(Icons.height)),
+                  keyboardType: TextInputType.number,
+                ),
+                SizedBox(
+                  height: 21,
+                ),
+                TextField(
+                  controller: inController,
+                  decoration: InputDecoration(
+                      label: Text("Enter your Height in Inches"),
+                      prefixIcon: Icon(Icons.height)),
+                  keyboardType: TextInputType.number,
+                ),
+                SizedBox(
+                  height: 21,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      var weight = wtController.text.toString();
+                      var feet = ftController.text.toString();
+                      var inch = inController.text.toString();
+
+                      if (weight != "" && feet != "" && inch != "") {
+                        //BMI
+
+                        var iWeight = int.parse(weight);
+                        var ifeet = int.parse(feet);
+                        var iInch = int.parse(inch);
+
+                        var tInch = (ifeet * 12) + iInch;
+                        var tCm = tInch * 2.54;
+                        var tM = tCm / 100;
+
+                        var bmi = iWeight / (tM * tM);
+
+                        result = "Your BMI is: ${bmi.toStringAsFixed(2)}";
+
+                        setState(() {});
+                      } else {
+                        setState(() {
+                          result = "Please fill all the required blanks!";
+                        });
+                      }
+                    },
+                    child: Text("Calculate")),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  result,
+                  style: TextStyle(fontSize: 20),
+                )
+              ],
+            ),
+          ),
         ));
   }
 }
