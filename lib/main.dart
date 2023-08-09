@@ -37,7 +37,7 @@ class MyHomeState extends State<MyHomePage> {
           centerTitle: true,
           backgroundColor: Colors.purple,
         ),
-        body: Container(
+        body: Container( //container
           color: bgColor,
           child: Center(
             child: Container(
